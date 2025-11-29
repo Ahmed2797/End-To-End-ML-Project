@@ -1,0 +1,54 @@
+
+columns:
+  RowNumber: int64
+  CustomerId: int64
+  Surname: object
+  CreditScore: float64
+  Geography: object
+  Gender: object
+  Age: float64
+  Tenure: int64
+  Balance: float64
+  NumOfProducts: int64
+  HasCrCard: int64
+  IsActiveMember: int64
+  EstimatedSalary: float64
+  Exited: int64
+
+target_column: Exited
+
+numerical_columns:
+  - CreditScore
+  - Age
+  - Tenure
+  - Balance
+  - NumOfProducts
+  - HasCrCard
+  - IsActiveMember
+  - EstimatedSalary
+
+categorical_columns:
+  - Geography
+  - Gender
+  
+
+drop_columns:
+  - RowNumber
+  - CustomerId
+  - Surname 
+   
+
+one_hot_encode_col:
+  - Gender 
+
+
+ordinal_encode_col:
+  - Geography
+
+
+log_transform_col:
+  - Age
+
+
+transform_col:
+  - None
