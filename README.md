@@ -1,26 +1,35 @@
 # End_To_End Machine Learning Project
 
 setup.sh
+
 bash setup.sh
 
 
 conda create -n ml python=3.12
+
 conda config --set auto_activate_base false
 
 conda activate ml
+
 conda deactivate
+
 deactivate  # Linux/Mac
 
 
 sudo apt install python3.12
+
 python3.12 -m venv ml
+
 source ml/bin/activate 
+
 deactivate
+
 rm -rf ml
 
 
 
 pip install -r requirements.txt 
+
 pip list
 
 
