@@ -124,8 +124,10 @@ class Data_Transformation:
 
             # Drop unwanted columns
             drop_cols = self._column_schema['drop_columns']
+            print('Drop_Columns:----',drop_cols)
             train_df.drop(columns=drop_cols, inplace=True, errors='ignore')
             test_df.drop(columns=drop_cols, inplace=True, errors='ignore')
+            print('actural_data_shape:--------',train_df.shape)
 
             # Apply Log Transform BEFORE pipeline
             # train_df = self.apply_log_transform_to_columns(train_df)
@@ -152,7 +154,8 @@ class Data_Transformation:
             smt = SMOTEENN(sampling_strategy='minority',random_state=42)
             x_train_resample, y_train = smt.fit_resample(X_train_trans,y_train) 
             x_test_resample, y_test = smt.fit_resample(X_test_trans,y_test) 
-            print(x_train_resample.shape)
+            print('*smote**apply*_data_shape:--------',x_train_resampled.shape)
+
             
             # Combine & save
             train_arr = np.c_[x_train_resample, np.array(y_train)]
