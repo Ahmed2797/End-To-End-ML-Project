@@ -1,6 +1,7 @@
 import os 
 import yaml 
 import pickle
+import joblib
 import sys
 import numpy as np
 
@@ -131,10 +132,19 @@ def load_numpy_array(file_path: str) -> np.ndarray:
         return None
 
 
+# def load_object(file_path: str) -> object:   
+#     try:
+#         with open(file_path, "rb") as file_obj:
+#             obj = pickle.load(file_obj)
+
+#         return obj
+#     except Exception as e:
+#         print(f"Error saving array: {e}")
+
 def load_object(file_path: str) -> object:   
     try:
         with open(file_path, "rb") as file_obj:
-            obj = pickle.load(file_obj)
+            obj = joblib.load(file_obj)
 
         return obj
     except Exception as e:

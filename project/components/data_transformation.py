@@ -152,14 +152,20 @@ class Data_Transformation:
             # Apply SMOTE 
             logging.info("Applying SMOTE to reduces Imbalanced_Data")
             smt = SMOTEENN(sampling_strategy='minority',random_state=42)
-            x_train_resample, y_train = smt.fit_resample(X_train_trans,y_train) 
-            x_test_resample, y_test = smt.fit_resample(X_test_trans,y_test) 
+            x_train_resample, y_train_resampled = smt.fit_resample(X_train_trans,y_train) 
+            #x_test_resample, y_test = smt.fit_resample(X_test_trans,y_test) 
             print('*smote**apply*_data_shape:--------',x_train_resample.shape)
 
-            
-            # Combine & save
-            train_arr = np.c_[x_train_resample, np.array(y_train)]
-            test_arr = np.c_[x_test_resample, np.array(y_test)]
+            logging.info(f"Resampled training shape: {x_train_resample.shape}, {y_train_resampled.shape}")
+
+            # For test set we keep original distribution (only transform, do not resample)
+            x_test_final = X_test_trans
+            y_test_final = y_test
+
+            # Combine & save arrays
+            train_arr = np.c_[x_train_resample, np.array(y_train_resampled)]
+            test_arr = np.c_[x_test_final, np.array(y_test_final)]
+
             save_numpy_array(self.transformation_config.transform_train_path, train_arr)
             save_numpy_array(self.transformation_config.transform_test_path, test_arr)
 

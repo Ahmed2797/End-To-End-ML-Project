@@ -1,0 +1,4 @@
+/data_ingestion
+/data_validation
+/data_transform
+/model_trainer

@@ -75,6 +75,7 @@ class Model_Train:
                 precision_score=precision_score(y_test, y_pred, average=average_method, zero_division=0),
                 recall_score=recall_score(y_test, y_pred, average=average_method, zero_division=0)
             )
+            print(metrics)
 
             # Save model temporarily to log in MLflow
             best_model_path = os.path.join(self.model_trainer_config.model_train_dir, "best_model.pkl")

@@ -6,56 +6,47 @@ from project.exception import CustomException
 
 class ProjectModel:
     """
-    A wrapper class for making predictions using a trained ML model 
-    with preprocessing pipeline support.
+    Predict using a saved preprocessing pipeline and trained ML model.
+    Accepts dict or DataFrame.
     """
+    
     def __init__(self, transform_object: Pipeline, best_model_details: BaseEstimator | object):
-        """
-        Args:
-            transform_object (Pipeline): Preprocessing pipeline.
-            best_model_details (BaseEstimator or object): Trained model or object containing .best_model.
-        """
         if not isinstance(transform_object, Pipeline):
             raise ValueError("transform_object must be a scikit-learn Pipeline")
+        
         self.transform_object = transform_object
         self.best_model_details = best_model_details
 
-    def predict(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-        """
-        Transforms the input dataframe and returns model predictions as a DataFrame.
+    def predict(self, data):
+        dataframe = None  # Prevent UnboundLocalError
 
-        Args:
-            dataframe (pd.DataFrame): Input features.
-
-        Returns:
-            pd.DataFrame: Predictions with column name 'prediction'.
-        """
         try:
-            if not isinstance(dataframe, pd.DataFrame):
-                raise ValueError("Input must be a pandas DataFrame")
+            # Convert dict → DataFrame
+            if isinstance(data, dict):
+                dataframe = pd.DataFrame([data])
 
-            # Transform input features
+            # Already a DataFrame
+            elif isinstance(data, pd.DataFrame):
+                dataframe = data
+
+            else:
+                raise ValueError("Input must be a pandas DataFrame or a dict")
+
+            # Check empty
+            if dataframe.empty:
+                raise ValueError("Input DataFrame is empty")
+
+            # Transform features
             transformed_features = self.transform_object.transform(dataframe)
 
-            # Get the actual model
+            # Extract model (in case it's wrapped)
             model = getattr(self.best_model_details, "best_model", self.best_model_details)
 
-            # Make predictions
+            # Predict
             predictions = model.predict(transformed_features)
 
-            # Return as DataFrame for consistency
-            return pd.DataFrame(predictions, columns=['prediction'])
+            # Return DataFrame
+            return pd.DataFrame(predictions, columns=["prediction"])
 
         except Exception as e:
             raise CustomException(e, sys)
-
-    def __repr__(self):
-        return (
-            f"Network_model(model={type(self.best_model_details).__name__}, "
-            f"transform={'Yes' if self.transform_object else 'No'})"
-        )
-
-    def __str__(self):
-        return self.__repr__()
-    
-    

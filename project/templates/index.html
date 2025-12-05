@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Churn Prediction</title>
+    <style>
+        body { font-family: Arial; background: #eef1f7; padding: 30px; }
+        .box {
+            width: 500px; margin: auto; padding: 25px;
+            background: white; border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        input, select {
+            width: 100%; padding: 10px; margin: 10px 0;
+            border-radius: 5px; border: 1px solid #ccc;
+        }
+        button {
+            width: 100%; padding: 12px; background: #007bff;
+            color: white; border: none; border-radius: 5px;
+            font-size: 15px; cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2 style="text-align:center;">Customer Churn Prediction</h2>
+
+    <form action="/predict" method="post">
+        
+        <input type="number" step="0.01" name="CreditScore" placeholder="Credit Score" required>
+        <input type="number" step="0.01" name="Age" placeholder="Age" required>
+        <input type="number" name="Tenure" placeholder="Tenure" required>
+        <input type="number" step="0.01" name="Balance" placeholder="Balance" required>
+        <input type="number" name="NumOfProducts" placeholder="Num of Products" required>
+
+        <select name="HasCrCard" required>
+            <option value="">Has Credit Card?</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <select name="IsActiveMember" required>
+            <option value="">Is Active Member?</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <input type="number" step="0.01" name="EstimatedSalary" placeholder="Estimated Salary" required>
+
+        <select name="Geography" required>
+            <option value="">Select Geography</option>
+            <option value="France">France</option>
+            <option value="Spain">Spain</option>
+            <option value="Germany">Germany</option>
+        </select>
+
+        <select name="Gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+        <h3 style="text-align:center; margin-top:20px;">Prediction: {{ result }}</h3>
+    {% endif %}
+</div>
+
+</body>
+</html>

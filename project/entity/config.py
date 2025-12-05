@@ -7,12 +7,20 @@ import os
 
 Timestamp = datetime.now().strftime('%m_%d_%Y_%H_%M_%S')
 
+# @dataclass 
+# class Project_Configuration:
+#     artifact: str = os.path.join(Artifact, Timestamp)
+#     pipeline: str = Pipeline_dir
+#     timestamp: str = Timestamp
+#     model_dir: str = os.path.join(final_model, Timestamp)
+
+
 @dataclass 
 class Project_Configuration:
-    artifact: str = os.path.join(Artifact, Timestamp)
+    artifact: str = Artifact  # just Artifact, no timestamp
     pipeline: str = Pipeline_dir
-    timestamp: str = Timestamp
-    model_dir: str = os.path.join(final_model, Timestamp)
+    timestamp: str = datetime.now().strftime('%m_%d_%Y_%H_%M_%S')
+    model_dir: str = final_model  
 
 
 project_config = Project_Configuration()

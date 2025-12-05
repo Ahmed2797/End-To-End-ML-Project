@@ -1,0 +1,109 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python main.py data_ingestion
+    deps:
+    - path: notebook/customer_churn_data.csv
+      hash: md5
+      md5: 75ecb18ca2f4f56cfbfff17c8532037f
+      size: 58669
+    - path: project/components/data_ingestion.py
+      hash: md5
+      md5: bc02ebe962f014ab3570e69f0dba16c5
+      size: 3217
+    - path: project/pipeline/training_pipeline.py
+      hash: md5
+      md5: 65e27c3bf591d12e8398355190b214d7
+      size: 4512
+    - path: yaml_file/columns.yaml
+      hash: md5
+      md5: 9912beb2bc0549d49f264f016539ad4f
+      size: 681
+    outs:
+    - path: artifact/data_ingestion
+      hash: md5
+      md5: f8771d7e8cd08f91b5a3b49881f62d9a.dir
+      size: 1365089
+      nfiles: 3
+  data_validation:
+    cmd: python main.py data_validation
+    deps:
+    - path: artifact/data_ingestion
+      hash: md5
+      md5: f8771d7e8cd08f91b5a3b49881f62d9a.dir
+      size: 1365089
+      nfiles: 3
+    - path: project/components/data_validation.py
+      hash: md5
+      md5: 3b6d3f270caa69ac296da6f2830ccbb2
+      size: 6912
+    - path: project/pipeline/training_pipeline.py
+      hash: md5
+      md5: 65e27c3bf591d12e8398355190b214d7
+      size: 4512
+    - path: yaml_file/columns.yaml
+      hash: md5
+      md5: 9912beb2bc0549d49f264f016539ad4f
+      size: 681
+    outs:
+    - path: artifact/data_validation
+      hash: md5
+      md5: 54d14f7d389b855c4165ff9bc2d45fdb.dir
+      size: 1697
+      nfiles: 1
+  data_transformation:
+    cmd: python main.py data_transformation
+    deps:
+    - path: artifact/data_validation
+      hash: md5
+      md5: 54d14f7d389b855c4165ff9bc2d45fdb.dir
+      size: 1697
+      nfiles: 1
+    - path: project/components/data_transformation.py
+      hash: md5
+      md5: ce6cca62a363ae2ed487bf9c4e71a95e
+      size: 7651
+    - path: project/pipeline/training_pipeline.py
+      hash: md5
+      md5: 65e27c3bf591d12e8398355190b214d7
+      size: 4512
+    - path: yaml_file/param.yaml
+      hash: md5
+      md5: b634d25b3d478f13dbd7df0710eb714f
+      size: 1171
+    outs:
+    - path: artifact/data_transform
+      hash: md5
+      md5: 4147fe267868226aa8142c3d5aa67a2a.dir
+      size: 1815085
+      nfiles: 3
+  model_trainer:
+    cmd: python main.py model_trainer
+    deps:
+    - path: artifact/data_transform
+      hash: md5
+      md5: 4147fe267868226aa8142c3d5aa67a2a.dir
+      size: 1815085
+      nfiles: 3
+    - path: project/components/model_trainer.py
+      hash: md5
+      md5: 2ba66807effb7e34fc83a690b9866674
+      size: 5983
+    - path: project/pipeline/training_pipeline.py
+      hash: md5
+      md5: 65e27c3bf591d12e8398355190b214d7
+      size: 4512
+    - path: yaml_file/param.yaml
+      hash: md5
+      md5: b634d25b3d478f13dbd7df0710eb714f
+      size: 1171
+    outs:
+    - path: artifact/model_trainer
+      hash: md5
+      md5: 2e50fcbdca9a1708ef6306d1e52b22a1.dir
+      size: 868161
+      nfiles: 1
+    - path: final_model/best_model.pkl
+      hash: md5
+      md5: 245c67427a5c139ed3efb4d3b54a1576
+      size: 868161
